@@ -1,5 +1,10 @@
 from collections import defaultdict
-from .production import Production
+from .production import (
+    ProductionBase,
+    Production,
+    ProductionUnion,
+    Terminal
+)
 
 
 class CFG(object):
@@ -12,23 +17,16 @@ class CFG(object):
         for p in productions:
             self.add(p)
 
-    def permutations(self, reference, required_terminals=None):
-        required_terminals = required_terminals or []
-        if not isinstance(reference, Production):
+    def permutations(self, reference):
+        production = self._resolve_production(reference)
+        return production.productions(self)
+
+    def _resolve_production(self, reference):
+        if not isinstance(reference, ProductionBase):
             if reference not in self._compiled:
                 raise IndexError("no production {0} found.".format(reference))
-            reference = self._compiled[reference]
-
-    def _permutations(self, production):
-        for s in production.symbols:
-            self._permutations(s)
-        pass
-
-    def _permutation_from_list(self, production_list):
-        for lhs in production_list[0].productions:
-            for rhs in self._permutations_from_list(production_list[1:]):
-                yield lhs + rhs
-                pass
+            return ProductionUnion(self._compiled[reference])
+        return reference
 
     def add(self, name, production):
         """ add a production to the compiled context """

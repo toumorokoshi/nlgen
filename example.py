@@ -1,18 +1,20 @@
-from nlgen.cfg import CFG, Production, PRef
+from nlgen.cfg import CFG, Production, PRef, Terminal
 
 # (optional) a list of productions can be passed in, as
 # the first argument.
 my_cfg = CFG(
     [
-        ("PRONOUN", Production("I", feature={"person": 1})),
-        ("VERB", Production("have", feature={"tense": "present", "person": 1})),
+        ("PRONOUN", Terminal("I", feature={"person": 1})),
+        ("VERB", Terminal("have", feature={"tense": "present", "person": 1})),
         # features are optional
-        ("NOUN", "candy"),
+        ("NOUN", Terminal("candy")),
         # a value of a production can be a list of
         # string or production references, as well.
-        ("SENTENCE", Production([PRef("PRONOUN"), "",
-                                 PRef("VERB"), "",
-                                 PRef("NOUN")])),
+        ("SENTENCE", ProductionList(
+            [PRef("PRONOUN"), Terminal(""),
+             PRef("VERB"), Terminal(""),
+             PRef("NOUN")]
+        )),
         # as a convenience, NLTK's fcfg notation is also parsed.
         ("SENTENCE", Production.fromstring("PRONOUN VERB NOUN"))
     ]
