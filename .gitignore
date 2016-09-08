@@ -88,3 +88,6 @@ ENV/
 # Rope project settings
 .ropeproject
 .uranium
+bin/
+include/
+pip-selfcheck.json

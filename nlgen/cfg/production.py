@@ -11,9 +11,10 @@ class ProductionUnion(ProductionBase):
     def __init__(self, individual_production_list):
         self._individual_production_list = individual_production_list
 
-    def productions(self, cfg):
+    def permutations(self, cfg):
         for production in self._individual_production_list:
-            yield production.productions(cfg)
+            for permutation in production.permutations(cfg):
+                yield permutation
 
 
 class Production(ProductionBase):
@@ -25,35 +26,47 @@ class Production(ProductionBase):
     def __init__(self, production_list):
         self._production_list = production_list
 
-    def productions(self, cfg):
-        return self._productions_from_list(
+    def permutations(self, cfg):
+        return self._permutations_from_list(
             self._production_list, cfg
         )
 
-    def _productions_from_list(self, production_list, cfg):
+    def _permutations_from_list(self, production_list, cfg):
         if len(production_list) == 0:
             yield []
         else:
             lhs = production_list[0]
             rhs = production_list[1:]
             for lhs_value in lhs.productions(cfg):
-                for rhs_value in self._productions_from_list(rhs):
+                for rhs_value in self._permutations_from_list(rhs):
                     yield lhs_value + rhs_value
 
 
-class PRef(ProductionBase):
+class ProductionRef(ProductionBase):
 
     def __init__(self, key):
         self._key = key
 
-    def productions(self, cfg):
+    def permutations(self, cfg):
         return cfg.permutations(self._key)
 
 
 class Terminal(ProductionBase):
 
     def __init__(self, value):
-        return self._value
+        self._value = value
 
-    def productions(self, cfg):
-        yield [self]
+    def permutations(self, cfg):
+        yield (self,)
+
+    def __eq__(self, other):
+        return (
+            isinstance(other, Terminal) and
+            self._value == other._value
+        )
+
+    def __repr__(self):
+        return "<Terminal: {0}>".format(self._value)
+
+    def __hash__(self):
+        return hash(self._value)

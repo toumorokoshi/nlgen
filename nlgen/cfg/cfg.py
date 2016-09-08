@@ -15,11 +15,11 @@ class CFG(object):
     def __init__(self, productions):
         self._compiled = defaultdict(list)
         for p in productions:
-            self.add(p)
+            self.add(*p)
 
     def permutations(self, reference):
         production = self._resolve_production(reference)
-        return production.productions(self)
+        return production.permutations(self)
 
     def _resolve_production(self, reference):
         if not isinstance(reference, ProductionBase):
