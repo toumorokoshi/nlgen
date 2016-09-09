@@ -33,12 +33,12 @@ class Production(ProductionBase):
 
     def _permutations_from_list(self, production_list, cfg):
         if len(production_list) == 0:
-            yield []
+            yield ()
         else:
             lhs = production_list[0]
             rhs = production_list[1:]
-            for lhs_value in lhs.productions(cfg):
-                for rhs_value in self._permutations_from_list(rhs):
+            for lhs_value in lhs.permutations(cfg):
+                for rhs_value in self._permutations_from_list(rhs, cfg):
                     yield lhs_value + rhs_value
 
 
@@ -57,7 +57,7 @@ class Terminal(ProductionBase):
         self._value = value
 
     def permutations(self, cfg):
-        yield (self,)
+        yield (self._value,)
 
     def __eq__(self, other):
         return (
