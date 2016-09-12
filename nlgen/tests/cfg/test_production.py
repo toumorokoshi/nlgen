@@ -6,5 +6,5 @@ def test_simple_production():
         ("S", Production([Terminal("foo"), Terminal("bar")]))
     ])
     expect = [("foo", "bar")]
-    result = list(cfg.permutations("S"))
+    result = list(cfg.permutation_values("S"))
     assert expect == result

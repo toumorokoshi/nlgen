@@ -5,4 +5,4 @@ def test_simple_terminal():
     cfg = CFG([
         ("S", Terminal("foo"))
     ])
-    assert list(cfg.permutations("S")) == [("foo",)]
+    assert list(cfg.permutation_values("S")) == [("foo",)]

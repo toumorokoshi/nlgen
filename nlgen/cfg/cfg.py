@@ -21,6 +21,14 @@ class CFG(object):
         production = self._resolve_production(reference)
         return production.permutations(self)
 
+    def permutation_values(self, reference):
+        """
+        returns just a list of the valid value, instead of
+        result objects
+        """
+        for result in self.permutations(reference):
+            yield result.value
+
     def _resolve_production(self, reference):
         if not isinstance(reference, ProductionBase):
             if reference not in self._compiled:

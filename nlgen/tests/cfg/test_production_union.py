@@ -9,5 +9,5 @@ def test_simple_production_union():
         ])),
     ])
     expect = [("foo",), ("bar",)]
-    result = list(cfg.permutations("S"))
+    result = list(cfg.permutation_values("S"))
     assert expect == result

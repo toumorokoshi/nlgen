@@ -29,6 +29,10 @@ def unify_features(l, r, match_required=None):
 
 
 def _combine_values(l_values, r_values, require_match=False):
+    if not l_values:
+        return r_values
+    if not r_values:
+        return l_values
     if require_match and l_values != r_values:
         raise IncongruentFeature(
             "{0} != {1}, and is a required match.".format(l_values, r_values)

@@ -10,6 +10,14 @@ def test_feature():
     assert unify_features(left, right) == expect
 
 
+def test_empty_features():
+    """ empty feature values on one side should default to the other side's values. """
+    left = {"person": set([1])}
+    right = {"gender": set(["male"])}
+    expect = {"gender": set(["male"]), "person": set([1])}
+    assert unify_features(left, right) == expect
+
+
 def test_incongruent_feature():
     left = {"gender": set(["female"]), "person": set([1])}
     right = {"gender": set(["male"]), "person": set([1])}

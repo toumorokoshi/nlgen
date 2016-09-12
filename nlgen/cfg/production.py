@@ -1,3 +1,8 @@
+from .result import Result
+from ..exception import IncongruentFeature
+from .feature import unify_features
+
+
 class ProductionBase(object):
     pass
 
@@ -33,13 +38,20 @@ class Production(ProductionBase):
 
     def _permutations_from_list(self, production_list, cfg):
         if len(production_list) == 0:
-            yield ()
+            yield Result((), {})
         else:
             lhs = production_list[0]
             rhs = production_list[1:]
             for lhs_value in lhs.permutations(cfg):
                 for rhs_value in self._permutations_from_list(rhs, cfg):
-                    yield lhs_value + rhs_value
+                    try:
+                        unioned_features = unify_features(lhs_value.features,
+                                                          rhs_value.features)
+                        yield Result(lhs_value.value + rhs_value.value, unioned_features)
+                    except IncongruentFeature:
+                        # we don't consider
+                        # incongruent features.
+                        continue
 
 
 class ProductionRef(ProductionBase):
@@ -53,11 +65,12 @@ class ProductionRef(ProductionBase):
 
 class Terminal(ProductionBase):
 
-    def __init__(self, value):
+    def __init__(self, value, features=None):
         self._value = value
+        self._features = features or {}
 
     def permutations(self, cfg):
-        yield (self._value,)
+        yield Result((self._value,), self._features)
 
     def __eq__(self, other):
         return (

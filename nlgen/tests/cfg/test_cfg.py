@@ -6,6 +6,6 @@ def test_multiple_productions_same_rule():
         ("S", Terminal("foo")),
         ("S", Terminal("bar"))
     ])
-    result = cfg.permutations("S")
+    result = cfg.permutation_values("S")
     expect = [("foo",), ("bar",)]
     assert set(result) == set(expect)
