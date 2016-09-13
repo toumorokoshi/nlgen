@@ -1,1 +1,3 @@
-number = /[0-9]+/;
+SYMBOL = /[a-zA-Z0-9]+/;
+line::Production = name:SYMBOL "->" targets:{SYMBOL}+;
+cfg = {line}+;
