@@ -10,7 +10,7 @@ my_cfg = CFG(
         ("NOUN", Terminal("candy")),
         # a value of a production can be a list of
         # string or production references, as well.
-        ("SENTENCE", ProductionList(
+        ("SENTENCE", Production(
             [PRef("PRONOUN"), Terminal(""),
              PRef("VERB"), Terminal(""),
              PRef("NOUN")]

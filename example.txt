@@ -1,0 +1,13 @@
+# this is an example of a CFG that nlgen accepts.
+SENTENCE -> PRONOUN VERB NOUN
+VERB ->
+  "are"[num=plural] |
+  "is" [num=singular,  person=3] |
+  "am" [num=singular,  person=1] |
+  "are"[num=singular, person=2] |
+PRONOUN =
+  "I"  [num=singular, person=1] |
+  "You"[num=singular, person=2] |
+  "She"[num=singular, person=2, gender=f] |
+  "He"[num=singular, person=2, gender=m] |
+NOUN -> "there" | "here"

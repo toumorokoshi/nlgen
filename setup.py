@@ -13,6 +13,7 @@ setup(name='nlgen',
       author_email='yusuke@tsutsumi.io',
       packages=find_packages(),
       install_requires=[
+          "grako"
       ],
       classifiers=[
           'Programming Language :: Python :: 3',
