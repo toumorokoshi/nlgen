@@ -1,6 +1,9 @@
 from .result import Result
-from ..exception import IncongruentFeature
+from ..exception import (
+    IncongruentFeature,
+)
 from .feature import unify_features
+from ..compat import string_type
 
 
 class ProductionBase(object):
@@ -67,7 +70,11 @@ class Terminal(ProductionBase):
 
     def __init__(self, value, features=None):
         self._value = value
-        self._features = features or {}
+        self._features = self._coerce_features(features or {})
+
+    @property
+    def features(self):
+        return self._features
 
     def permutations(self, cfg):
         yield Result((self._value,), self._features)
@@ -79,7 +86,30 @@ class Terminal(ProductionBase):
         )
 
     def __repr__(self):
-        return "<Terminal: {0}>".format(self._value)
+        return "<Terminal: {0}>".format(self._value.encode("utf-8"))
 
     def __hash__(self):
         return hash(self._value)
+
+    @staticmethod
+    def _coerce_features(feature_dict):
+        """
+        the features dictionary can accept a variety
+        of types, so this method provides proper
+        enforcement to the correct data structure.
+
+        the output data structure is a dictionary
+        of <str, set> mappings.
+        """
+        for k, v in feature_dict.items():
+            if isinstance(v, set):
+                # the desired type.
+                continue
+            if isinstance(v, string_type):
+                v = set([v])
+            elif hasattr(v, "__iter__"):
+                v = set(v)
+            else:
+                v = set([str(v)])
+            feature_dict[k] = v
+        return feature_dict
