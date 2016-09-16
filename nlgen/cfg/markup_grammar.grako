@@ -1,3 +1,4 @@
-SYMBOL = /[a-zA-Z0-9]+/;
-line::Production = name:SYMBOL "->" targets:{SYMBOL}+;
-cfg = {line}+;
+reference = key:/[a-zA-Z0-9]+/;
+terminal = value:/"[^"]*"/;
+single_production = reference | terminal;
+production = production_list:{single_production}+;

@@ -56,6 +56,11 @@ class Production(ProductionBase):
                         # incongruent features.
                         continue
 
+    def __eq__(self, other):
+        if not isinstance(other, Production):
+            return False
+        return self._production_list == other._production_list
+
 
 class ProductionRef(ProductionBase):
 
@@ -64,6 +69,12 @@ class ProductionRef(ProductionBase):
 
     def permutations(self, cfg):
         return cfg.permutations(self._key)
+
+    def __eq__(self, other):
+        return (
+            isinstance(other, ProductionRef) and
+            self._key == other._key
+        )
 
 
 class Terminal(ProductionBase):
