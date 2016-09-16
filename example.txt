@@ -10,4 +10,26 @@ PRONOUN =
   "You"[num=singular, person=2] |
   "She"[num=singular, person=2, gender=f] |
   "He"[num=singular, person=2, gender=m] |
-NOUN -> "there" | "here"
+
+SENTENCE = PRONOUN VERB NOUN
+PRONOUN =
+     | "I" {num: singular, person: 1}
+     | "you" {num: singular, person: 2}
+     | "she" {num: singular, person: 3, gender: female}
+     | "he" {num: singular, person: 3, gender: male}
+     | "we" {num: plural, person: 1}
+     | "you all" {num: plural, person: 2}
+     | "they" {num: plural, person: 3}
+
+VERB =
+     | "have" {category: [object]}
+     | "be"   {category: [place]}
+     | "know" {category: [fact]}
+     | "want" {category: [object]}
+     | "go"   {category: [place]}
+
+NOUN =
+     | "there"{category: place}
+     | "here" {category: place}
+     | "this" {category: [object, fact]}
+     | "that" {category: [object, fact]}
