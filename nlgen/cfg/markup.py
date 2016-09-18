@@ -34,7 +34,7 @@ class ProductionSemantics(object):
         return ProductionRef(ast.key)
 
     def production(self, ast):
-        return Production([ast.single_production] + ast.production_list)
+        return Production([ast.head] + ast.production_list)
 
     def named_production(self, ast):
         return (ast.name, ast.production)

@@ -11,3 +11,9 @@ def test_simple_production_union():
     expect = [("foo",), ("bar",)]
     result = list(cfg.permutation_values("S"))
     assert expect == result
+
+
+def test_equality():
+    assert (ProductionUnion([Terminal("foo"), Terminal("bar")])
+            ==
+            ProductionUnion([Terminal("foo"), Terminal("bar")]))

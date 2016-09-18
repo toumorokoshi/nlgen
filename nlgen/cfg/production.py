@@ -24,6 +24,19 @@ class ProductionUnion(ProductionBase):
             for permutation in production.permutations(cfg):
                 yield permutation
 
+    def __repr__(self):
+        return "<ProductionUnion: ({0})>".format(
+            " | ".join([repr(p) for p in self._individual_production_list])
+        )
+
+    def __eq__(self, other):
+        if not isinstance(other, ProductionUnion):
+            return False
+        return (
+            self._individual_production_list ==
+            other._individual_production_list
+        )
+
 
 class Production(ProductionBase):
     """
@@ -61,6 +74,9 @@ class Production(ProductionBase):
             return False
         return self._production_list == other._production_list
 
+    def __repr__(self):
+        return "<Production: {0}>".format(repr(self._production_list))
+
 
 class ProductionRef(ProductionBase):
 
@@ -75,6 +91,9 @@ class ProductionRef(ProductionBase):
             isinstance(other, ProductionRef) and
             self._key == other._key
         )
+
+    def __repr__(self):
+        return "<ProductionRef: {0}>".format(self._key.encode("utf-8"))
 
 
 class Terminal(ProductionBase):

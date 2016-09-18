@@ -8,3 +8,9 @@ def test_simple_production():
     expect = [("foo", "bar")]
     result = list(cfg.permutation_values("S"))
     assert expect == result
+
+
+def test_equality():
+    assert (Production([Terminal("foo"), Terminal("bar")])
+            ==
+            Production([Terminal("foo"), Terminal("bar")]))
