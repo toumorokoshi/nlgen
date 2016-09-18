@@ -1,4 +1,7 @@
-reference = key:/[a-zA-Z0-9]+/;
+symbol = /[a-zA-Z0-9]+/;
+reference = key:symbol;
 terminal = value:/"[^"]*"/;
 single_production = reference | terminal;
-production = production_list:{single_production}+;
+production = head:single_production production_list:{single_production}+;
+named_production = name:symbol "->" production:(production | reference | terminal);
+CFG = named_production_list:{named_production}+;
