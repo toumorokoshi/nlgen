@@ -40,4 +40,5 @@ class ProductionSemantics(object):
         return (ast.name, ast.production)
 
     def CFG(self, ast):
-        return CFG(ast.named_production_list)
+        # remove the semicolon we don't care about.
+        return CFG([el[0] for el in ast.named_production_list])

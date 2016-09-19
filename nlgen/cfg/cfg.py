@@ -39,3 +39,14 @@ class CFG(object):
     def add(self, name, production):
         """ add a production to the compiled context """
         self._compiled[name].append(production)
+
+    def __eq__(self, other):
+        if not isinstance(other, CFG):
+            return False
+        return self._compiled == other._compiled
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __repr__(self):
+        return "<CFG: {0}>".format(self._compiled)

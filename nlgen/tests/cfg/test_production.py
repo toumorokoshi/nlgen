@@ -14,3 +14,6 @@ def test_equality():
     assert (Production([Terminal("foo"), Terminal("bar")])
             ==
             Production([Terminal("foo"), Terminal("bar")]))
+    assert not (Production([Terminal("foo"), Terminal("bar")])
+                !=
+                Production([Terminal("foo"), Terminal("bar")]))

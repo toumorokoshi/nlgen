@@ -1,7 +1,9 @@
 from nlgen.cfg import (
+    CFG,
     read_production,
     read_cfg,
-    Production, ProductionRef
+    Production, ProductionRef,
+    Terminal
 )
 
 
@@ -13,13 +15,21 @@ def test_simple_case():
         ProductionRef("NOUN"),
     ])
 
-CFG = """
-SENTENCE -> PRONOUN VERB NOUN
-PRONOUN -> "I"
-VERB -> "have"
-NOUN -> "tickets"
+CFG_EXAMPLE = """
+SENTENCE -> PRONOUN VERB NOUN;
+PRONOUN -> "I";
+VERB -> "have";
+NOUN -> "tickets";
 """
 
 
 def test_cfg():
-    result = read_cfg(CFG)
+    result = read_cfg(CFG_EXAMPLE)
+    assert CFG([
+        ("SENTENCE", Production([ProductionRef("PRONOUN"),
+                                 ProductionRef("VERB"),
+                                 ProductionRef("NOUN")])),
+        ("PRONOUN", Terminal("I")),
+        ("VERB", Terminal("have")),
+        ("NOUN", Terminal("tickets"))
+    ]) == result
