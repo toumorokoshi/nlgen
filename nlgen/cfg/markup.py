@@ -2,6 +2,7 @@
 it is typically more convenient to use a markup language to define grammars,
 instead of using the programmatic interface. This handles the parsing.
 """
+import json
 from .markup_parser import CFGMarkupParser
 from .cfg import CFG
 from .production import (
@@ -28,7 +29,10 @@ def read_cfg(text):
 class ProductionSemantics(object):
 
     def terminal(self, ast):
-        return Terminal(ast.value)
+        features = ast.features
+        if features is not None:
+            features = json.loads("".join(features))
+        return Terminal(ast.value, features=features)
 
     def reference(self, ast):
         return ProductionRef(ast.key)

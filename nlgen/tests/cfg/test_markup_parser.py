@@ -17,9 +17,9 @@ def test_simple_case():
 
 CFG_EXAMPLE = """
 SENTENCE -> PRONOUN VERB NOUN;
-PRONOUN -> "I";
-VERB -> "have";
+PRONOUN -> "I" {"person": "1"};
 NOUN -> "tickets";
+VERB -> "have";
 """
 
 
@@ -29,7 +29,7 @@ def test_cfg():
         ("SENTENCE", Production([ProductionRef("PRONOUN"),
                                  ProductionRef("VERB"),
                                  ProductionRef("NOUN")])),
-        ("PRONOUN", Terminal("I")),
+        ("PRONOUN", Terminal("I", features={"person": "1"})),
         ("VERB", Terminal("have")),
         ("NOUN", Terminal("tickets"))
     ]) == result

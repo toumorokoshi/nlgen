@@ -112,7 +112,8 @@ class Terminal(ProductionBase):
     def __eq__(self, other):
         return (
             isinstance(other, Terminal) and
-            self._value == other._value
+            self._value == other._value and
+            self._features == other._features
         )
 
     def __repr__(self):

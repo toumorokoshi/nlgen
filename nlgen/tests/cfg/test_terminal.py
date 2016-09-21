@@ -8,6 +8,11 @@ def test_simple_terminal():
     assert list(cfg.permutation_values("S")) == [("foo",)]
 
 
+def test_equal():
+    assert (Terminal("I", features={"person": "1"}) ==
+            Terminal("I", features={"person": "1"}))
+
+
 def test_coerce_features():
     """ we should be able to coerce common feature descriptions. """
     # string as value
