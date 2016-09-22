@@ -18,6 +18,10 @@ def build_grammar(build):
     ])
 
 
+def build_docs(build):
+    build.packages.install("sphinx")
+
+
 def test(build):
     main(build)
     build.packages.install("pytest")
