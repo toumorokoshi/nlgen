@@ -28,6 +28,23 @@ def read_cfg(text):
 
 class ProductionSemantics(object):
 
+    def CFG(self, ast):
+        # remove the semicolon we don't care about.
+        return CFG([el[0] for el in ast.named_production_list])
+
+    def named_production(self, ast):
+        return (ast.name, ast.production)
+
+    def production(self, ast):
+        if ast.rest:
+            # remove unneeded "|"
+            rest = [e[1] for e in ast.rest]
+            return ProductionUnion([ast.head] + rest)
+        return ast.head
+
+    def production_list(self, ast):
+        return Production([ast.head] + ast.rest)
+
     def terminal(self, ast):
         features = ast.features
         if features is not None:
@@ -36,13 +53,3 @@ class ProductionSemantics(object):
 
     def reference(self, ast):
         return ProductionRef(ast.key)
-
-    def production(self, ast):
-        return Production([ast.head] + ast.production_list)
-
-    def named_production(self, ast):
-        return (ast.name, ast.production)
-
-    def CFG(self, ast):
-        # remove the semicolon we don't care about.
-        return CFG([el[0] for el in ast.named_production_list])

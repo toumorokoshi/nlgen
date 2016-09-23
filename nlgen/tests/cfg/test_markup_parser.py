@@ -3,6 +3,7 @@ from nlgen.cfg import (
     read_production,
     read_cfg,
     Production, ProductionRef,
+    ProductionUnion,
     Terminal
 )
 
@@ -17,7 +18,7 @@ def test_simple_case():
 
 CFG_EXAMPLE = """
 SENTENCE -> PRONOUN VERB NOUN;
-PRONOUN -> "I" {"person": "1"};
+PRONOUN -> "I" {"person": "1"} | "You" {"person": "2"};
 NOUN -> "tickets";
 VERB -> "have";
 """
@@ -29,7 +30,10 @@ def test_cfg():
         ("SENTENCE", Production([ProductionRef("PRONOUN"),
                                  ProductionRef("VERB"),
                                  ProductionRef("NOUN")])),
-        ("PRONOUN", Terminal("I", features={"person": "1"})),
+        ("PRONOUN", ProductionUnion([
+            Terminal("I", features={"person": "1"}),
+            Terminal("You", features={"person": "2"})
+        ])),
         ("VERB", Terminal("have")),
         ("NOUN", Terminal("tickets"))
     ]) == result

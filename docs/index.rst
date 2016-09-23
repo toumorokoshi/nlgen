@@ -3,8 +3,22 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to nlgen's documentation!
-=================================
+NLGEN: Natural Language Generation Tools
+========================================
+
+.. warning::
+
+   nlgen is currently in a very early alpha. There is currently no
+   guarantee about the stability of any API it exposes.
+
+   You can inquire more about the status of it's APIs by filing an issue:
+   https://github.com/toumorokoshi/nlgen/issues
+
+nlgen is a set of tools for natural language generation.
+
+nlgen currently includes:
+
+- a featured context-free grammar
 
 Contents:
 
@@ -19,4 +33,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

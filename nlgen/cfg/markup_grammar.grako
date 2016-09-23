@@ -1,7 +1,9 @@
-symbol = /[a-zA-Z0-9]+/;
-reference = key:symbol;
-terminal = /"/ value:/[^"]*/ /"/ features:[ "{" [ /[^\}]*/ ] "}" ];
-single_production = reference | terminal;
-production = head:single_production production_list:{single_production}+;
-named_production = name:symbol "->" production:(production | reference | terminal);
 CFG = named_production_list:{named_production ";"};
+named_production = name:symbol "->" production:production;
+production = head:production_element rest:{"|" production_element}*;
+production_element = production_list | production_single;
+production_list = head:production_single rest:{production_single}+;
+production_single = reference | terminal;
+terminal = /"/ value:/[^"]*/ /"/ features:[ "{" [ /[^\}]*/ ] "}" ];
+reference = key:symbol;
+symbol = /[a-zA-Z0-9]+/;
