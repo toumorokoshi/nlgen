@@ -13,17 +13,18 @@ from .production import (
 
 def read_production(text):
     """ generate a production from the standard cfg notation of NLGEN. """
-    semantics = ProductionSemantics()
-    parser = CFGMarkupParser(semantics=semantics)
-    ast = parser.parse(text, "production")
-    return ast
+    return _get_parser().parse(text, "production")
 
 
 def read_cfg(text):
+    return _get_parser().parse(text, "CFG")
+
+
+def _get_parser():
     semantics = ProductionSemantics()
-    parser = CFGMarkupParser(semantics=semantics)
-    ast = parser.parse(text, "CFG")
-    return ast
+    return CFGMarkupParser(
+        semantics=semantics
+    )
 
 
 class ProductionSemantics(object):

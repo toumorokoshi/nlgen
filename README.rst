@@ -8,23 +8,17 @@ Natural Language Generator for Python
 Summary
 -------
 
-The goal of nlgen is to allow for generation of a natural sentence
-with a specific meaning. For example, translating "I like candy" to
-"Mi gustan los dulces".
+nlgen provides tools that help with natural language generation. nlgen currently features:
 
-----
-How?
-----
+- a featured context free grammar representation and generator.
 
-Ensuring that a sentence is grammatically correct is difficult.
-For now, nlgen will focus on generation using featured context-free-grammars.
+------------
+Documentation
+------------
 
----
-API
----
+Currently, nlgen is in a very early alpha. The best documentation at this time is the unit tests:
 
-.. code-block:: python
+How to use the context-free grammar programatically:
 
-    from nlgen.fcfg import FCFG, FProduction
-
-    FCFG.add_production(FRule("VI", "
+- CFG example: https://github.com/toumorokoshi/nlgen/blob/master/nlgen/tests/cfg/test_full.py
+- Using the text representation of a CFG: https://github.com/toumorokoshi/nlgen/blob/master/nlgen/tests/cfg/test_markup_parser.py

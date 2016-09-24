@@ -22,7 +22,7 @@ SENTENCE -> PRONOUN VERB NOUN;
 PRONOUN -> "I" {"person": "1"} | "You" {"person": "2"};
 NOUN -> "tickets";
 VERB -> "have";
-"""
+""".strip()
 
 
 def test_cfg():
@@ -38,3 +38,17 @@ def test_cfg():
         ("VERB", Terminal("have")),
         ("NOUN", Terminal("tickets"))
     ]) == result
+
+WITH_COMMENTS = """
+# start
+PRONOUN -> "I";
+# comment
+VERB -> "play"; # foo
+""".strip()
+
+
+def test_comments():
+    assert read_cfg(WITH_COMMENTS) == CFG([
+        ("PRONOUN", Terminal("I")),
+        ("VERB", Terminal("play"))
+    ])

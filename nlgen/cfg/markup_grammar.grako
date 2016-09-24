@@ -1,3 +1,4 @@
+@@eol_comments :: /#.*?$/
 CFG = named_production_list:{named_production ";"};
 named_production = name:symbol "->" production:production;
 production = head:production_element rest:{"|" production_element}*;
