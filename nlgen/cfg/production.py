@@ -6,11 +6,11 @@ from .feature import unify_features
 from ..compat import string_type
 
 
-class ProductionBase(object):
+class Production(object):
     pass
 
 
-class ProductionUnion(ProductionBase):
+class ProductionUnion(Production):
     """
     the union of several productions. It will
     iterate through all matches through all production lists.
@@ -38,7 +38,7 @@ class ProductionUnion(ProductionBase):
         )
 
 
-class Production(ProductionBase):
+class ProductionList(Production):
     """
     a list of productions, such as
     PRONOUN " " VERB " " NOUN
@@ -78,7 +78,7 @@ class Production(ProductionBase):
         return "<Production: {0}>".format(repr(self._production_list))
 
 
-class ProductionRef(ProductionBase):
+class ProductionRef(Production):
 
     def __init__(self, key):
         self._key = key
@@ -96,7 +96,7 @@ class ProductionRef(ProductionBase):
         return "<ProductionRef: {0}>".format(self._key.encode("utf-8"))
 
 
-class Terminal(ProductionBase):
+class Terminal(Production):
 
     def __init__(self, value, features=None):
         self._value = value

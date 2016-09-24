@@ -1,6 +1,5 @@
 from collections import defaultdict
 from .production import (
-    ProductionBase,
     Production,
     ProductionUnion,
     Terminal
@@ -30,7 +29,7 @@ class CFG(object):
             yield result.value
 
     def _resolve_production(self, reference):
-        if not isinstance(reference, ProductionBase):
+        if not isinstance(reference, Production):
             if reference not in self._compiled:
                 raise IndexError("no production {0} found.".format(reference))
             return ProductionUnion(self._compiled[reference])

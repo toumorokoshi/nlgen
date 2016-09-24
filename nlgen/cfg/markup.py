@@ -6,7 +6,7 @@ import json
 from .markup_parser import CFGMarkupParser
 from .cfg import CFG
 from .production import (
-    ProductionUnion, Production,
+    ProductionUnion, ProductionList,
     ProductionRef, Terminal
 )
 
@@ -43,7 +43,7 @@ class ProductionSemantics(object):
         return ast.head
 
     def production_list(self, ast):
-        return Production([ast.head] + ast.rest)
+        return ProductionList([ast.head] + ast.rest)
 
     def terminal(self, ast):
         features = ast.features

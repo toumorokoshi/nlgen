@@ -1,0 +1,4 @@
+[run]
+omit = nlgen/tests/*
+       nlgen/cfg/markup_parser.py
+       nlgen/compat.py

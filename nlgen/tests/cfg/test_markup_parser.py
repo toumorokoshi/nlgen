@@ -2,7 +2,8 @@ from nlgen.cfg import (
     CFG,
     read_production,
     read_cfg,
-    Production, ProductionRef,
+    ProductionList,
+    ProductionRef,
     ProductionUnion,
     Terminal
 )
@@ -10,7 +11,7 @@ from nlgen.cfg import (
 
 def test_simple_case():
     result = read_production("PRONOUN VI NOUN")
-    assert result == Production([
+    assert result == ProductionList([
         ProductionRef("PRONOUN"),
         ProductionRef("VI"),
         ProductionRef("NOUN"),
@@ -27,9 +28,9 @@ VERB -> "have";
 def test_cfg():
     result = read_cfg(CFG_EXAMPLE)
     assert CFG([
-        ("SENTENCE", Production([ProductionRef("PRONOUN"),
-                                 ProductionRef("VERB"),
-                                 ProductionRef("NOUN")])),
+        ("SENTENCE", ProductionList([ProductionRef("PRONOUN"),
+                                     ProductionRef("VERB"),
+                                     ProductionRef("NOUN")])),
         ("PRONOUN", ProductionUnion([
             Terminal("I", features={"person": "1"}),
             Terminal("You", features={"person": "2"})

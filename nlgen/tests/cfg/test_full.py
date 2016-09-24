@@ -1,4 +1,4 @@
-from nlgen.cfg import CFG, Production, ProductionRef, Terminal
+from nlgen.cfg import CFG, ProductionList, ProductionRef, Terminal
 
 
 def test_full_example():
@@ -7,7 +7,7 @@ def test_full_example():
         ("VERB", Terminal("have")),
         ("NOUN", Terminal("candy")),
         ("NOUN", Terminal("bonbons")),
-        ("SENTENCE", Production([
+        ("SENTENCE", ProductionList([
             ProductionRef("PRONOUN"),
             ProductionRef("VERB"),
             ProductionRef("NOUN")
@@ -27,7 +27,7 @@ def test_feature_mismatch():
         ("PRONOUN", Terminal("You", features={"person": set("2")})),
         ("VERB", Terminal("have", features={"person": set("2")})),
         ("NOUN", Terminal("candy")),
-        ("SENTENCE", Production([
+        ("SENTENCE", ProductionList([
             ProductionRef("PRONOUN"),
             ProductionRef("VERB"),
             ProductionRef("NOUN")
