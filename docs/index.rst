@@ -25,6 +25,9 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   cfg_tutorial
+   api
+
 
 
 Indices and tables

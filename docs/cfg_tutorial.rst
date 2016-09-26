@@ -133,4 +133,91 @@ Features
 
 We now know how to generate basic sentences, but our use case is very
 limited. For example, how do we allow for sentences that are for more
-than the first person?
+than the first person? If we want to generate sentences for the second person, we
+could just add the "you": terminal::
+
+    SENTENCE -> PRONOUN VI NOUN;
+    VI -> VERB;
+    PRONOUN -> "I" | "you";
+    VERB -> "play";
+    NOUN -> "blackjack" | "poker";
+
+    # this will generate:
+    - I play blackjack
+    - You play blackjack
+    - I play poker
+    - You play poker
+
+But how about the third person, e.g. "she"?::
+
+    SENTENCE -> PRONOUN VI NOUN;
+    VI -> VERB;
+    PRONOUN -> "I" | "you" | "she" ;
+    VERB -> "play";
+    NOUN -> "blackjack" | "poker";
+
+    # this will generate:
+    - I play blackjack
+    - you play blackjack
+    - she play blackjack
+    - I play poker
+    - you play poker
+    - she play poker
+
+Unfortunately, this results in some improper english sentences:
+
+- she play poker
+- she play blackjack
+
+The lack of verb-subject agreement makes this sentence
+improper. Really, we would want to replace "play" with "plays", but we
+need to make sure it's specifically for the third person. Thus, some
+terminals should only be used for other specific terminals.
+
+Enter features. Features can attach attributes to a terminal. the CFG in nlgen requires
+that the features match: mismatches will be thrown out.
+
+Feature Syntax
+==============
+
+To define features, add a json dictionary after the terminal, of string -> string_or_list pairs::
+
+  # the value can be a single string, or a list of strings.
+  VERB -> "play" {"person": ["1", "2"]} |
+          "plays": {"person": 3};
+
+  # all values are coerced to a string, such as the 1 here.
+  PRONOUN -> "I" {"person": 1} |
+             "you" {"person": "2"} |
+             "she" {"person" 3}
+
+When generating sentences, combinations of "you" and "plays" will be
+invalid, as they don't agree on their person feature.
+
+- features with a list of values will match as long as any of the values match.
+
+
+-------------
+Final Example
+-------------
+
+So our final example looks like::
+
+    # example.nlcfg
+    SENTENCE -> PRONOUN VI NOUN;
+    VI -> VERB;
+    PRONOUN -> "I" {"person": 1} |
+               "you" {"person": "2"} |
+               "she" {"person": 3};
+    VERB -> "play"  {"person": ["1", "2"]} |
+            "plays" {"person": 3};
+    NOUN -> "blackjack" | "poker";
+
+and generates the set::
+
+    ("I", "play", "blackjack"),
+    ("you", "play", "blackjack"),
+    ("she", "plays", "blackjack"),
+    ("I", "play", "poker"),
+    ("you", "play", "poker"),
+    ("she", "plays", "poker"),
