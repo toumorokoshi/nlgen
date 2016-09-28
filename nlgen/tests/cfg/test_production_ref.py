@@ -1,10 +1,10 @@
-from nlgen.cfg import CFG, Terminal, ProductionRef
+from nlgen.cfg import CFG, PTerminal, PRef
 
 
 def test_simple_production_ref():
     cfg = CFG([
-        ("S", Terminal("foo")),
+        ("S", PTerminal("foo")),
     ])
     expect = [("foo",)]
-    result = list(cfg.permutation_values(ProductionRef("S")))
+    result = list(cfg.permutation_values(PRef("S")))
     assert expect == result

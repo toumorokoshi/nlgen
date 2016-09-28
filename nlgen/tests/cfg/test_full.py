@@ -1,16 +1,16 @@
-from nlgen.cfg import CFG, ProductionList, ProductionRef, Terminal
+from nlgen.cfg import CFG, PList, PRef, PTerminal
 
 
 def test_full_example():
     my_cfg = CFG([
-        ("PRONOUN", Terminal("I")),
-        ("VERB", Terminal("have")),
-        ("NOUN", Terminal("candy")),
-        ("NOUN", Terminal("bonbons")),
-        ("SENTENCE", ProductionList([
-            ProductionRef("PRONOUN"),
-            ProductionRef("VERB"),
-            ProductionRef("NOUN")
+        ("PRONOUN", PTerminal("I")),
+        ("VERB", PTerminal("have")),
+        ("NOUN", PTerminal("candy")),
+        ("NOUN", PTerminal("bonbons")),
+        ("SENTENCE", PList([
+            PRef("PRONOUN"),
+            PRef("VERB"),
+            PRef("NOUN")
         ]))
     ])
     result = set(my_cfg.permutation_values("SENTENCE"))
@@ -23,14 +23,14 @@ def test_full_example():
 def test_feature_mismatch():
     """ a feature mismatch should result """
     my_cfg = CFG([
-        ("PRONOUN", Terminal("I", features={"person": set("1")})),
-        ("PRONOUN", Terminal("You", features={"person": set("2")})),
-        ("VERB", Terminal("have", features={"person": set("2")})),
-        ("NOUN", Terminal("candy")),
-        ("SENTENCE", ProductionList([
-            ProductionRef("PRONOUN"),
-            ProductionRef("VERB"),
-            ProductionRef("NOUN")
+        ("PRONOUN", PTerminal("I", features={"person": set("1")})),
+        ("PRONOUN", PTerminal("You", features={"person": set("2")})),
+        ("VERB", PTerminal("have", features={"person": set("2")})),
+        ("NOUN", PTerminal("candy")),
+        ("SENTENCE", PList([
+            PRef("PRONOUN"),
+            PRef("VERB"),
+            PRef("NOUN")
         ]))
     ])
     result = set(my_cfg.permutation_values("SENTENCE"))

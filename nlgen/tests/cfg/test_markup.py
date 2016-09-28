@@ -2,19 +2,19 @@ from nlgen.cfg import (
     CFG,
     read_production,
     read_cfg,
-    ProductionList,
-    ProductionRef,
-    ProductionUnion,
-    Terminal
+    PList,
+    PRef,
+    PUnion,
+    PTerminal
 )
 
 
 def test_simple_case():
     result = read_production("PRONOUN VI NOUN")
-    assert result == ProductionList([
-        ProductionRef("PRONOUN"),
-        ProductionRef("VI"),
-        ProductionRef("NOUN"),
+    assert result == PList([
+        PRef("PRONOUN"),
+        PRef("VI"),
+        PRef("NOUN"),
     ])
 
 CFG_EXAMPLE = """
@@ -28,15 +28,15 @@ VERB -> "have";
 def test_cfg():
     result = read_cfg(CFG_EXAMPLE)
     assert CFG([
-        ("SENTENCE", ProductionList([ProductionRef("PRONOUN"),
-                                     ProductionRef("VERB"),
-                                     ProductionRef("NOUN")])),
-        ("PRONOUN", ProductionUnion([
-            Terminal("I", features={"person": "1"}),
-            Terminal("You", features={"person": "2"})
+        ("SENTENCE", PList([PRef("PRONOUN"),
+                                     PRef("VERB"),
+                                     PRef("NOUN")])),
+        ("PRONOUN", PUnion([
+            PTerminal("I", features={"person": "1"}),
+            PTerminal("You", features={"person": "2"})
         ])),
-        ("VERB", Terminal("have")),
-        ("NOUN", Terminal("tickets"))
+        ("VERB", PTerminal("have")),
+        ("NOUN", PTerminal("tickets"))
     ]) == result
 
 WITH_COMMENTS = """
@@ -49,6 +49,6 @@ VERB -> "play"; # foo
 
 def test_comments():
     assert read_cfg(WITH_COMMENTS) == CFG([
-        ("PRONOUN", Terminal("I")),
-        ("VERB", Terminal("play"))
+        ("PRONOUN", PTerminal("I")),
+        ("VERB", PTerminal("play"))
     ])

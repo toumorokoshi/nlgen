@@ -1,9 +1,9 @@
-from nlgen.cfg import CFG, Terminal, ProductionList
+from nlgen.cfg import CFG, PTerminal, PList
 
 
 def test_simple_production():
     cfg = CFG([
-        ("S", ProductionList([Terminal("foo"), Terminal("bar")]))
+        ("S", PList([PTerminal("foo"), PTerminal("bar")]))
     ])
     expect = [("foo", "bar")]
     result = list(cfg.permutation_values("S"))
@@ -11,9 +11,9 @@ def test_simple_production():
 
 
 def test_equality():
-    assert (ProductionList([Terminal("foo"), Terminal("bar")])
+    assert (PList([PTerminal("foo"), PTerminal("bar")])
             ==
-            ProductionList([Terminal("foo"), Terminal("bar")]))
-    assert not (ProductionList([Terminal("foo"), Terminal("bar")])
+            PList([PTerminal("foo"), PTerminal("bar")]))
+    assert not (PList([PTerminal("foo"), PTerminal("bar")])
                 !=
-                ProductionList([Terminal("foo"), Terminal("bar")]))
+                PList([PTerminal("foo"), PTerminal("bar")]))

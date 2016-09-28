@@ -1,8 +1,7 @@
 from collections import defaultdict
 from .production import (
     Production,
-    ProductionUnion,
-    Terminal
+    PUnion,
 )
 
 
@@ -32,7 +31,7 @@ class CFG(object):
         if not isinstance(reference, Production):
             if reference not in self._compiled:
                 raise IndexError("no production {0} found.".format(reference))
-            return ProductionUnion(self._compiled[reference])
+            return PUnion(self._compiled[reference])
         return reference
 
     def add(self, name, production):

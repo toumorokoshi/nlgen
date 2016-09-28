@@ -1,9 +1,6 @@
 from .cfg import CFG
 from .production import (
     Production,
-    ProductionList,
-    ProductionUnion,
-    ProductionRef,
-    Terminal
+    PList, PUnion, PRef, PTerminal
 )
 from .markup import read_production, read_cfg

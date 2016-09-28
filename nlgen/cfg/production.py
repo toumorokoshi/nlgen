@@ -10,7 +10,7 @@ class Production(object):
     pass
 
 
-class ProductionUnion(Production):
+class PUnion(Production):
     """
     the union of several productions. It will
     iterate through all matches through all production lists.
@@ -25,12 +25,12 @@ class ProductionUnion(Production):
                 yield permutation
 
     def __repr__(self):
-        return "<ProductionUnion: ({0})>".format(
+        return "<PUnion: ({0})>".format(
             " | ".join([repr(p) for p in self._individual_production_list])
         )
 
     def __eq__(self, other):
-        if not isinstance(other, ProductionUnion):
+        if not isinstance(other, PUnion):
             return False
         return (
             self._individual_production_list ==
@@ -38,7 +38,7 @@ class ProductionUnion(Production):
         )
 
 
-class ProductionList(Production):
+class PList(Production):
     """
     a list of productions, such as
     PRONOUN " " VERB " " NOUN
@@ -70,7 +70,7 @@ class ProductionList(Production):
                         continue
 
     def __eq__(self, other):
-        if not isinstance(other, Production):
+        if not isinstance(other, PList):
             return False
         return self._production_list == other._production_list
 
@@ -78,7 +78,7 @@ class ProductionList(Production):
         return "<Production: {0}>".format(repr(self._production_list))
 
 
-class ProductionRef(Production):
+class PRef(Production):
 
     def __init__(self, key):
         self._key = key
@@ -88,15 +88,15 @@ class ProductionRef(Production):
 
     def __eq__(self, other):
         return (
-            isinstance(other, ProductionRef) and
+            isinstance(other, PRef) and
             self._key == other._key
         )
 
     def __repr__(self):
-        return "<ProductionRef: {0}>".format(self._key.encode("utf-8"))
+        return "<PRef: {0}>".format(self._key.encode("utf-8"))
 
 
-class Terminal(Production):
+class PTerminal(Production):
 
     def __init__(self, value, features=None):
         self._value = value
@@ -111,13 +111,13 @@ class Terminal(Production):
 
     def __eq__(self, other):
         return (
-            isinstance(other, Terminal) and
+            isinstance(other, PTerminal) and
             self._value == other._value and
             self._features == other._features
         )
 
     def __repr__(self):
-        return "<Terminal: {0}>".format(self._value.encode("utf-8"))
+        return "<PTerminal: {0}>".format(self._value.encode("utf-8"))
 
     def __hash__(self):
         return hash(self._value)

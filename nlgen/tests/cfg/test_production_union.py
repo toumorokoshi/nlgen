@@ -1,11 +1,11 @@
-from nlgen.cfg import CFG, Terminal, ProductionUnion
+from nlgen.cfg import CFG, PTerminal, PUnion
 
 
 def test_simple_production_union():
     cfg = CFG([
-        ("S", ProductionUnion([
-            Terminal("foo"),
-            Terminal("bar")
+        ("S", PUnion([
+            PTerminal("foo"),
+            PTerminal("bar")
         ])),
     ])
     expect = [("foo",), ("bar",)]
@@ -14,6 +14,6 @@ def test_simple_production_union():
 
 
 def test_equality():
-    assert (ProductionUnion([Terminal("foo"), Terminal("bar")])
+    assert (PUnion([PTerminal("foo"), PTerminal("bar")])
             ==
-            ProductionUnion([Terminal("foo"), Terminal("bar")]))
+            PUnion([PTerminal("foo"), PTerminal("bar")]))

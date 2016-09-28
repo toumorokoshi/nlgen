@@ -6,8 +6,8 @@ import json
 from .markup_parser import CFGMarkupParser
 from .cfg import CFG
 from .production import (
-    ProductionUnion, ProductionList,
-    ProductionRef, Terminal
+    PUnion, PList,
+    PRef, PTerminal
 )
 
 
@@ -40,17 +40,17 @@ class ProductionSemantics(object):
         if ast.rest:
             # remove unneeded "|"
             rest = [e[1] for e in ast.rest]
-            return ProductionUnion([ast.head] + rest)
+            return PUnion([ast.head] + rest)
         return ast.head
 
     def production_list(self, ast):
-        return ProductionList([ast.head] + ast.rest)
+        return PList([ast.head] + ast.rest)
 
     def terminal(self, ast):
         features = ast.features
         if features is not None:
             features = json.loads("".join(features))
-        return Terminal(ast.value, features=features)
+        return PTerminal(ast.value, features=features)
 
     def reference(self, ast):
-        return ProductionRef(ast.key)
+        return PRef(ast.key)

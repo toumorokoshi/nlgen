@@ -1,10 +1,10 @@
-from nlgen.cfg import CFG, Terminal
+from nlgen.cfg import CFG, PTerminal
 
 
 def test_multiple_productions_same_rule():
     cfg = CFG([
-        ("S", Terminal("foo")),
-        ("S", Terminal("bar"))
+        ("S", PTerminal("foo")),
+        ("S", PTerminal("bar"))
     ])
     result = cfg.permutation_values("S")
     expect = [("foo",), ("bar",)]
@@ -13,11 +13,11 @@ def test_multiple_productions_same_rule():
 
 def test_equality():
     lhs = CFG([
-        ("S", Terminal("foo")),
-        ("S", Terminal("bar"))
+        ("S", PTerminal("foo")),
+        ("S", PTerminal("bar"))
     ])
     rhs = CFG([
-        ("S", Terminal("foo")),
-        ("S", Terminal("bar"))
+        ("S", PTerminal("foo")),
+        ("S", PTerminal("bar"))
     ])
     assert lhs == rhs
