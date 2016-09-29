@@ -10,7 +10,7 @@ needs_pytest = {'pytest', 'test', 'ptr'}.intersection(sys.argv)
 pytest_runner = ['pytest-runner'] if needs_pytest else []
 
 setup(name='nlgen',
-      version='0.0.4',
+      version='0.0.5',
       description='natural language generator',
       long_description="the language game.",
       author='Yusuke Tsutsumi',

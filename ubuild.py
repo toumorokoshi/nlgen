@@ -28,6 +28,7 @@ def build_docs(build):
     )
 
 
+@task_requires("main")
 def test(build):
     main(build)
     build.packages.install("pytest")
