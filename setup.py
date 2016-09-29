@@ -1,9 +1,13 @@
 #!/usr/bin/env python
+import sys
 
 try:
     from setuptools import setup, find_packages
 except:
     from distutils.core import setup
+
+needs_pytest = {'pytest', 'test', 'ptr'}.intersection(sys.argv)
+pytest_runner = ['pytest-runner'] if needs_pytest else []
 
 setup(name='nlgen',
       version='0.0.4',
@@ -17,9 +21,13 @@ setup(name='nlgen',
       ],
       classifiers=[
           'Programming Language :: Python :: 3',
+          'Programming Language :: Python :: 2',
+          'Development Status :: 3 - Alpha',
+          'License :: OSI Approved :: MIT License',
       ],
       entry_points={
           'console_scripts': []
       },
-      tests_require=[]
+      setup_requires=pytest_runner,
+      tests_require=pytest_runner
 )

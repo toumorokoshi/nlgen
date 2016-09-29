@@ -2,6 +2,10 @@
 nlgen
 =====
 
+.. image::https://travis-ci.org/toumorokoshi/nlgen/settings#
+    :alt: build status
+    :target: https://travis-ci.org/toumorokoshi/nlgen
+
 Natural Language Generator for Python
 
 -------
