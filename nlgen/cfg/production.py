@@ -74,6 +74,9 @@ class PList(Production):
             return False
         return self._production_list == other._production_list
 
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     def __repr__(self):
         return "<Production: {0}>".format(repr(self._production_list))
 
