@@ -7,7 +7,16 @@ from ..compat import string_type
 
 
 class Production(object):
-    pass
+
+    def permutations(self, cfg, features=None):
+        features = coerce_features(features)
+        for result in self._permutations(cfg):
+            if features:
+                try:
+                    unify_features(result.features, features)
+                except IncongruentFeature:
+                    continue
+            yield result
 
 
 class PUnion(Production):
@@ -19,7 +28,7 @@ class PUnion(Production):
     def __init__(self, individual_production_list):
         self._individual_production_list = individual_production_list
 
-    def permutations(self, cfg):
+    def _permutations(self, cfg):
         for production in self._individual_production_list:
             for permutation in production.permutations(cfg):
                 yield permutation
@@ -44,10 +53,11 @@ class PList(Production):
     PRONOUN " " VERB " " NOUN
     """
 
-    def __init__(self, production_list):
+    def __init__(self, production_list, features=None):
         self._production_list = production_list
+        self._features = coerce_features(features)
 
-    def permutations(self, cfg):
+    def _permutations(self, cfg):
         return self._permutations_from_list(
             self._production_list, cfg
         )
@@ -63,6 +73,7 @@ class PList(Production):
                     try:
                         unioned_features = unify_features(lhs_value.features,
                                                           rhs_value.features)
+                        unify_features(self._features, unioned_features)
                         yield Result(lhs_value.value + rhs_value.value, unioned_features)
                     except IncongruentFeature:
                         # we don't consider
@@ -82,11 +93,15 @@ class PList(Production):
 
 
 class PRef(Production):
+    """
+    a reference to another production. the key should match the name
+    of the production being matched.
+    """
 
     def __init__(self, key):
         self._key = key
 
-    def permutations(self, cfg):
+    def _permutations(self, cfg):
         return cfg.permutations(self._key)
 
     def __eq__(self, other):
@@ -103,13 +118,13 @@ class PTerminal(Production):
 
     def __init__(self, value, features=None):
         self._value = value
-        self._features = self._coerce_features(features or {})
+        self._features = coerce_features(features)
 
     @property
     def features(self):
         return self._features
 
-    def permutations(self, cfg):
+    def _permutations(self, cfg):
         yield Result((self._value,), self._features)
 
     def __eq__(self, other):
@@ -125,25 +140,26 @@ class PTerminal(Production):
     def __hash__(self):
         return hash(self._value)
 
-    @staticmethod
-    def _coerce_features(feature_dict):
-        """
-        the features dictionary can accept a variety
-        of types, so this method provides proper
-        enforcement to the correct data structure.
 
-        the output data structure is a dictionary
-        of <str, set> mappings.
-        """
-        for k, v in feature_dict.items():
-            if isinstance(v, set):
-                # the desired type.
-                continue
-            if isinstance(v, string_type):
-                v = set([v])
-            elif hasattr(v, "__iter__"):
-                v = set(v)
-            else:
-                v = set([str(v)])
-            feature_dict[k] = v
-        return feature_dict
+def coerce_features(feature_dict):
+    """
+    the features dictionary can accept a variety
+    of types, so this method provides proper
+    enforcement to the correct data structure.
+
+    the output data structure is a dictionary
+    of <str, set> mappings.
+    """
+    feature_dict = feature_dict or {}
+    for k, v in feature_dict.items():
+        if isinstance(v, set):
+            # the desired type.
+            continue
+        if isinstance(v, string_type):
+            v = set([v])
+        elif hasattr(v, "__iter__"):
+            v = set(v)
+        else:
+            v = set([str(v)])
+        feature_dict[k] = v
+    return feature_dict

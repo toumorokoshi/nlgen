@@ -2,7 +2,10 @@ from collections import defaultdict
 from .production import (
     Production,
     PUnion,
+    coerce_features
 )
+from .feature import unify_features
+from ..exception import IncongruentFeature
 
 
 class CFG(object):
@@ -15,16 +18,17 @@ class CFG(object):
         for p in productions:
             self.add(*p)
 
-    def permutations(self, reference):
+    def permutations(self, reference, features=None):
+        features = coerce_features(features)
         production = self._resolve_production(reference)
-        return production.permutations(self)
+        return production.permutations(self, features=features)
 
-    def permutation_values(self, reference):
+    def permutation_values(self, *args, **kwargs):
         """
         returns just a list of the valid value, instead of
         result objects
         """
-        for result in self.permutations(reference):
+        for result in self.permutations(*args, **kwargs):
             yield result.value
 
     def _resolve_production(self, reference):
