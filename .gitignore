@@ -94,3 +94,4 @@ pip-selfcheck.json
 
 # this is generated.
 nlgen/cfg/markup_parser.py
+VERSION
