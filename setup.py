@@ -1,19 +1,19 @@
 #!/usr/bin/env python
 import os
 import sys
-try:
-    from setuptools import setup, find_packages
-except:
-    from distutils.core import setup
+from setuptools import setup, find_packages
+
+is_release = False
+if "--release" in sys.argv:
+    sys.argv.remove("--release")
+    is_release = True
 
 base = os.path.dirname(os.path.abspath(__file__))
 README_PATH = os.path.join(base, "README.rst")
 
-needs_pytest = {'pytest', 'test', 'ptr'}.intersection(sys.argv)
-pytest_runner = ['pytest-runner'] if needs_pytest else []
-
 setup(name='nlgen',
-      version='0.0.6',
+      setup_requires=["vcver==0.0.8"],
+      vcver={"is_release": is_release, "path": base},
       description='natural language generator',
       long_description=open(README_PATH).read(),
       author='Yusuke Tsutsumi',
@@ -30,7 +30,4 @@ setup(name='nlgen',
       ],
       entry_points={
           'console_scripts': []
-      },
-      setup_requires=pytest_runner,
-      tests_require=pytest_runner
-)
+      })

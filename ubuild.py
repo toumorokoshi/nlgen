@@ -40,11 +40,11 @@ def test(build):
     ] + build.options.args)
 
 
-@task_requires(build_grammar)
-def distribute(build):
+@task_requires("build_grammar")
+def publish(build):
     """ distribute the uranium package """
     build.packages.install("wheel")
     build.executables.run([
         "python", "setup.py",
-        "sdist", "bdist_wheel", "--universal", "upload"
+        "bdist_wheel", "--universal", "upload", "--release"
     ])
